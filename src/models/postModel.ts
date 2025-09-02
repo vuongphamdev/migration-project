@@ -25,6 +25,30 @@ export class PostModel {
     return rows as Post[];
   }
 
+  static async findAllWithPagination(
+    page: number = 1,
+    limit: number = 10
+  ): Promise<{ posts: Post[]; total: number }> {
+    const offset = (page - 1) * limit;
+
+    // Single query using window function to get both posts and total count
+    const query = `
+      SELECT 
+        *,
+        COUNT(*) OVER() as total_count
+      FROM posts 
+      ORDER BY created_at DESC 
+      LIMIT ? OFFSET ?
+    `;
+
+    const [rows]: any = await pool.query(query, [limit, offset]);
+
+    return {
+      posts: rows.map(({ total_count, ...post }: any) => post) as Post[],
+      total: rows.length > 0 ? rows[0].total_count : 0,
+    };
+  }
+
   static async findById(id: number): Promise<Post | null> {
     const sql = `SELECT * FROM posts WHERE id = ?`;
     const [rows]: any = await pool.query(sql, [id]);

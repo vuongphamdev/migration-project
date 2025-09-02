@@ -33,13 +33,61 @@ export const createPost = async (req: Request, res: Response) => {
 
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await PostModel.findAll();
-    return ResponseHandler.success(res, 'Posts fetched successfully', posts);
+    // Parse pagination parameters
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    // Validate pagination parameters
+    if (page < 1) {
+      return ResponseHandler.badRequest(
+        res,
+        'Invalid page number',
+        'Page must be greater than 0'
+      );
+    }
+
+    if (limit < 1 || limit > 100) {
+      return ResponseHandler.badRequest(
+        res,
+        'Invalid limit',
+        'Limit must be between 1 and 100'
+      );
+    }
+
+    const { posts, total } = await PostModel.findAllWithPagination(page, limit);
+
+    return ResponseHandler.successWithPagination(
+      res,
+      'Posts fetched successfully',
+      posts,
+      page,
+      total,
+      limit
+    );
   } catch (err) {
     console.error('Error fetching posts:', err);
     return ResponseHandler.internalError(
       res,
       'Failed to fetch posts',
+      err instanceof Error ? err.message : 'Unknown error'
+    );
+  }
+};
+
+// Optional: Get all posts without pagination (for dropdown lists, etc.)
+export const getAllPostsNoPagination = async (req: Request, res: Response) => {
+  try {
+    const posts = await PostModel.findAll();
+    return ResponseHandler.success(
+      res,
+      'All posts fetched successfully',
+      posts
+    );
+  } catch (err) {
+    console.error('Error fetching all posts:', err);
+    return ResponseHandler.internalError(
+      res,
+      'Failed to fetch all posts',
       err instanceof Error ? err.message : 'Unknown error'
     );
   }

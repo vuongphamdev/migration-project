@@ -5,6 +5,14 @@ export interface ApiResponse<T = any> {
   message: string;
   data?: T;
   error?: string | null;
+  pagination?: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+  };
 }
 
 export class ResponseHandler {
@@ -21,6 +29,35 @@ export class ResponseHandler {
       message,
       data,
       error: null,
+    };
+    return res.status(statusCode).json(response);
+  }
+
+  /**
+   * Send a successful response with pagination
+   */
+  static successWithPagination<T>(
+    res: Response,
+    message: string,
+    data: T,
+    currentPage: number,
+    totalItems: number,
+    itemsPerPage: number,
+    statusCode: number = 200
+  ): Response {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const response: ApiResponse<T> = {
+      message,
+      data,
+      error: null,
+      pagination: {
+        currentPage,
+        totalPages,
+        totalItems,
+        itemsPerPage,
+        hasNext: currentPage < totalPages,
+        hasPrevious: currentPage > 1,
+      },
     };
     return res.status(statusCode).json(response);
   }
