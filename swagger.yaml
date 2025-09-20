@@ -4,8 +4,8 @@ info:
   version: 1.0.0
   description: Node.js/Express/MySQL API for user and post management.
 servers:
-  - url: http://localhost:3000
-    description: Local development server
+  - url: "{SERVER_URL}"
+    description: API server (set dynamically)
 paths:
   /ping:
     get:

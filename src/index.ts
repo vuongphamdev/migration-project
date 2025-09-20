@@ -7,7 +7,16 @@ import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import helmet from "helmet";
 import helmetConfig from "./config/helmetConfig";
-const swaggerDocument = YAML.load(__dirname + "/../swagger.yaml");
+let swaggerDocument = YAML.load(__dirname + "/../swagger.yaml");
+
+const serverUrl = process.env.SERVER_URL;
+if (
+  swaggerDocument &&
+  swaggerDocument.servers &&
+  swaggerDocument.servers.length > 0
+) {
+  swaggerDocument.servers[0].url = serverUrl;
+}
 
 dotenv.config();
 
