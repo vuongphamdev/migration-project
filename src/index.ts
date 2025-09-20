@@ -1,27 +1,42 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import userRouter from './routes/userRoutes';
-import { initDB, pool } from './config/db';
-import postRouter from './routes/postRoutes';
+import dotenv from "dotenv";
+import express from "express";
+import userRouter from "./routes/userRoutes";
+import { initDB, pool } from "./config/db";
+import postRouter from "./routes/postRoutes";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+import helmet from "helmet";
+import helmetConfig from "./config/helmetConfig";
+const swaggerDocument = YAML.load(__dirname + "/../swagger.yaml");
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 
+// Security middleware (best practice config)
+// Helmet is used to secure Express apps by setting various HTTP headers.
+// Below are best-practice options with descriptions for each:
+// Helmet is used to secure Express apps by setting various HTTP headers.
+// Configuration is defined in src/config/helmetConfig.ts for maintainability.
+app.use(helmet(helmetConfig));
+
 // test DB
-app.get('/ping', async (_req, res) => {
+app.get("/ping", async (_req, res) => {
   try {
-    const [rows] = await pool.query('SELECT NOW() as now');
-    res.json({ status: 'ok', time: (rows as any)[0].now });
+    const [rows] = await pool.query("SELECT NOW() as now");
+    res.json({ status: "ok", time: (rows as any)[0].now });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
 // routes
-app.use('/users', userRouter);
-app.use('/posts', postRouter);
+app.use("/users", userRouter);
+app.use("/posts", postRouter);
+
+// Swagger docs route
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const PORT = process.env.PORT || 3000;
 
