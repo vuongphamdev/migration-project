@@ -1,7 +1,8 @@
-import dotenv from 'dotenv';
-import mysql from 'mysql2/promise';
+import dotenv from "dotenv";
+import mysql from "mysql2/promise";
 
 dotenv.config();
+console.log("🔧 Loading environment variables from .env file", process.env);
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -38,9 +39,9 @@ async function initDB() {
   try {
     await pool.query(createUsersTableSQL);
     await pool.query(createPostsTableSQL);
-    console.log('✅ Database initialized (users and posts tables ready).');
+    console.log("✅ Database initialized (users and posts tables ready).");
   } catch (err) {
-    console.error('❌ Error initializing DB:', err);
+    console.error("❌ Error initializing DB:", err);
   }
 }
 

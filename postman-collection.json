@@ -1,0 +1,716 @@
+{
+  "info": {
+    "_postman_id": "migration-project-api",
+    "name": "Migration Project API",
+    "description": "Complete API collection for the Migration Project - Node.js/Express/MySQL API with user and post management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "migration-project"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Ping Database",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/ping",
+              "host": ["{{BASE_URL}}"],
+              "path": ["ping"]
+            },
+            "description": "Health check endpoint to test database connectivity"
+          },
+          "response": [
+            {
+              "name": "Ping Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/ping",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["ping"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"status\": \"ok\",\n  \"time\": \"2025-09-20T10:30:00.000Z\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/users",
+              "host": ["{{BASE_URL}}"],
+              "path": ["users"]
+            },
+            "description": "Retrieve all users from the database"
+          },
+          "response": [
+            {
+              "name": "Get All Users Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/users",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["users"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Users fetched successfully\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"John Doe\",\n      \"email\": \"john@example.com\",\n      \"created_at\": \"2025-09-20T10:30:00.000Z\"\n    }\n  ],\n  \"error\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/users/{{USER_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["users", "{{USER_ID}}"]
+            },
+            "description": "Retrieve a specific user by their ID"
+          },
+          "response": [
+            {
+              "name": "Get User Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/users/1",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["users", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"User fetched successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"created_at\": \"2025-09-20T10:30:00.000Z\"\n  },\n  \"error\": null\n}"
+            },
+            {
+              "name": "User Not Found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/users/999",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["users", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"User not found\",\n  \"data\": null,\n  \"error\": \"User not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"jane.smith@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/users",
+              "host": ["{{BASE_URL}}"],
+              "path": ["users"]
+            },
+            "description": "Create a new user. Requires name and email in the request body."
+          },
+          "response": [
+            {
+              "name": "Create User Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"jane.smith@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/users",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["users"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"User created successfully\",\n  \"data\": {\n    \"id\": 2\n  },\n  \"error\": null\n}"
+            },
+            {
+              "name": "Create User Missing Fields",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Jane Smith\"\n}"
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/users",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["users"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Missing required fields\",\n  \"data\": null,\n  \"error\": \"name and email are required\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe Updated\",\n  \"email\": \"jane.updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/users/{{USER_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["users", "{{USER_ID}}"]
+            },
+            "description": "Update an existing user by ID. Provide updated name and/or email in the request body."
+          },
+          "response": [
+            {
+              "name": "Update User Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Jane Doe Updated\",\n  \"email\": \"jane.updated@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/users/1",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["users", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"User updated successfully\",\n  \"data\": {\n    \"id\": 1\n  },\n  \"error\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/users/{{USER_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["users", "{{USER_ID}}"]
+            },
+            "description": "Delete a user by ID"
+          },
+          "response": [
+            {
+              "name": "Delete User Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/users/1",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["users", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"User deleted successfully\",\n  \"data\": {\n    \"id\": 1\n  },\n  \"error\": null\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Get All Posts (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/posts?page=1&limit=10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["posts"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (default: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (1-100, default: 10)"
+                }
+              ]
+            },
+            "description": "Retrieve all posts with pagination support. Default page=1, limit=10"
+          },
+          "response": [
+            {
+              "name": "Get All Posts Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/posts?page=1&limit=10",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["posts"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Posts fetched successfully\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"user_id\": 1,\n      \"title\": \"Sample Post Title\",\n      \"content\": \"This is the content of the post...\",\n      \"created_at\": \"2025-09-20T10:30:00.000Z\"\n    }\n  ],\n  \"error\": null,\n  \"pagination\": {\n    \"currentPage\": 1,\n    \"totalPages\": 5,\n    \"totalItems\": 45,\n    \"itemsPerPage\": 10,\n    \"hasNext\": true,\n    \"hasPrevious\": false\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Post By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/posts/{{POST_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["posts", "{{POST_ID}}"]
+            },
+            "description": "Retrieve a specific post by its ID"
+          },
+          "response": [
+            {
+              "name": "Get Post Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/posts/1",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["posts", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Post fetched successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"user_id\": 1,\n    \"title\": \"Sample Post Title\",\n    \"content\": \"This is the content of the post...\",\n    \"created_at\": \"2025-09-20T10:30:00.000Z\"\n  },\n  \"error\": null\n}"
+            },
+            {
+              "name": "Post Not Found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/posts/999",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["posts", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Post not found\",\n  \"data\": null,\n  \"error\": \"Post not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"title\": \"New Post Title\",\n  \"content\": \"This is the content of my new post. It can be as long as needed and supports markdown or plain text.\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/posts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["posts"]
+            },
+            "description": "Create a new post. Requires user_id, title, and content in the request body."
+          },
+          "response": [
+            {
+              "name": "Create Post Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": 1,\n  \"title\": \"New Post Title\",\n  \"content\": \"This is the content of my new post.\"\n}"
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/posts",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["posts"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Post created successfully\",\n  \"data\": {\n    \"id\": 2\n  },\n  \"error\": null\n}"
+            },
+            {
+              "name": "Create Post Missing Fields",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"New Post Title\"\n}"
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/posts",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["posts"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Missing required fields\",\n  \"data\": null,\n  \"error\": \"user_id, title, and content are required\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Post Title\",\n  \"content\": \"This is the updated content of the post. The user_id cannot be changed via this endpoint.\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/posts/{{POST_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["posts", "{{POST_ID}}"]
+            },
+            "description": "Update an existing post by ID. Provide updated title and/or content in the request body. Note: user_id cannot be updated."
+          },
+          "response": [
+            {
+              "name": "Update Post Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Updated Post Title\",\n  \"content\": \"This is the updated content of the post.\"\n}"
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}/posts/1",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["posts", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Post updated successfully\",\n  \"data\": {\n    \"id\": 1\n  },\n  \"error\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/posts/{{POST_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["posts", "{{POST_ID}}"]
+            },
+            "description": "Delete a post by ID"
+          },
+          "response": [
+            {
+              "name": "Delete Post Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{BASE_URL}}/posts/1",
+                  "host": ["{{BASE_URL}}"],
+                  "path": ["posts", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Post deleted successfully\",\n  \"data\": {\n    \"id\": 1\n  },\n  \"error\": null\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "USER_ID",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "POST_ID",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}
